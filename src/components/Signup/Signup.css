@@ -1,0 +1,89 @@
+.signup__body {
+  width: 100vw;
+  height: 100vh;
+  right: 0px;
+  display: flex;
+}
+.background-image {
+  width: 50%;
+  margin: 0px;
+  left: 0;
+  background-image: url(https://images.unsplash.com/photo-1579403124614-197f69d8187b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=80);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.signup__form {
+  margin: auto;
+  height: 730px;
+  width: 450px;
+  background-color: transparent;
+}
+h4 {
+  text-align: center;
+  color: #55595c;
+}
+
+.form-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+input {
+  font-size: 1.3rem;
+}
+
+label {
+  font-size: 1.3rem;
+  text-transform: uppercase;
+  color: #00ff00;
+}
+
+.form-control {
+  background-color: transparent;
+  border-top: 0;
+  border-right: 0;
+  border-left: 0;
+  border-radius: 0;
+  width: 50%;
+}
+
+.form-control:focus {
+  border-color: #026602;
+}
+
+/* .btn--form {
+  padding: .5rem 2.5rem;
+  font-size: .95rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #fff;
+  background: #026602;
+  border-radius: remy(35px);
+} */
+
+/* .btn--form:focus, .btn--form:hover {
+  background: #014201;
+} */
+
+.signup__link {
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-decoration: underline;
+  color: #999;
+}
+
+.signup__link:focus,
+.signup__link:hover {
+  color: #787878;
+}
+
+.errorMessage {
+  font-size: 18px;
+  color: red;
+  margin-bottom: 25px;
+  height: 12px;
+}
+.btn {
+  margin-top: 20px;
+}
