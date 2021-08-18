@@ -43,7 +43,7 @@ function App() {
     handleUserLogout,
   };
   return (
-    <div style={{}}>
+    <div>
       <ToastContainer position='top-center' />
       <MainRouterContext.Provider value={itemsToMainRouterContext}>
         <MainRouter />
