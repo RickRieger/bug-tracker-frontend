@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
-import useFormValueMonitor from '../hooks/useNameInputMonitor';
+import React, { useState, useEffect } from 'react';
+import useNameInputMonitor from '../hooks/useNameInputMonitor';
 import useEmailInputMonitor from '../hooks/useEmailInputMonitor';
 import usePasswordInputMonitor from '../hooks/usePasswordInputMonitor';
 import useConfirmPasswordInputMonitor from '../hooks/useConfirmPasswordInputMonitor';
-import Axios from '../utils/Axios';
-import { toast } from 'react-toastify';
+// import Axios from '../utils/Axios';
+// import { toast } from 'react-toastify';
 import './Signup.css';
 
 function Signup() {
@@ -13,42 +13,40 @@ function Signup() {
     handleFirstNameOnChange,
     firstNameErrorMessage,
     handleFirstNameOnBlur,
-    handleFirstNameOnFocus,
-  ] = useFormValueMonitor('First name');
+  ] = useNameInputMonitor('First name');
   const [
     lastName,
     handleLastNameOnChange,
     lastNameErrorMessage,
     handleLastNameOnBlur,
-    handleLastNameOnFocus,
-  ] = useFormValueMonitor('Last name');
-  const [
-    email,
-    handleEmailOnChange,
-    emailErrorMessage,
-    handleEmailOnBlur,
-    handleEmailOnFocus,
-  ] = useEmailInputMonitor('Email');
+  ] = useNameInputMonitor('Last name');
+  const [email, handleEmailOnChange, emailErrorMessage, handleEmailOnBlur] =
+    useEmailInputMonitor('Email');
   const [
     password,
     handlePasswordOnChange,
-    isPasswordError,
     passwordErrorMessage,
     handlePasswordOnBlur,
-    handlePasswordOnFocus,
   ] = usePasswordInputMonitor('Password');
   const [
     confirmPassword,
     handleConfirmPasswordOnChange,
     confirmPasswordErrorMessage,
     handleConfirmPasswordOnBlur,
-    handleConfirmPasswordOnFocus,
+    comparePasswords,
   ] = useConfirmPasswordInputMonitor('Confirm password');
 
   const [isSubmitButtonDisabled, setIsSubmitButtonDisabled] = useState(true);
 
   useEffect(() => {
-    if (firstName && lastName && email && password && confirmPassword) {
+    comparePasswords(password);
+    if (
+      firstName.length > 0 &&
+      lastName.length > 0 &&
+      email.length > 0 &&
+      password.length > 0 &&
+      confirmPassword.length > 0
+    ) {
       if (
         !firstNameErrorMessage &&
         !lastNameErrorMessage &&
@@ -58,14 +56,22 @@ function Signup() {
         password === confirmPassword
       ) {
         setIsSubmitButtonDisabled(false);
+      } else {
+        setIsSubmitButtonDisabled(true);
       }
     }
   }, [
-    useFormValueMonitor,
-    useFormValueMonitor,
-    useEmailInputMonitor,
-    usePasswordInputMonitor,
-    useConfirmPasswordInputMonitor,
+    firstName,
+    lastName,
+    email,
+    password,
+    confirmPassword,
+    firstNameErrorMessage,
+    lastNameErrorMessage,
+    emailErrorMessage,
+    passwordErrorMessage,
+    confirmPasswordErrorMessage,
+    comparePasswords,
   ]);
 
   const handleOnSubmit = (event) => {
@@ -92,7 +98,6 @@ function Signup() {
             required
             onChange={handleFirstNameOnChange}
             onBlur={handleFirstNameOnBlur}
-            // onFocus={handleInputOnFocus}
             autoFocus
           />
         </div>
@@ -110,7 +115,6 @@ function Signup() {
             required
             onChange={handleLastNameOnChange}
             onBlur={handleLastNameOnBlur}
-            // onFocus={handleInputOnFocus}
           />
         </div>
         <div className='errorMessage'>
@@ -127,7 +131,6 @@ function Signup() {
             required
             onChange={handleEmailOnChange}
             onBlur={handleEmailOnBlur}
-            // onFocus={handleInputOnFocus}
           />
         </div>
         <div className='errorMessage'>
@@ -144,7 +147,7 @@ function Signup() {
             required
             onChange={handlePasswordOnChange}
             onBlur={handlePasswordOnBlur}
-            // onFocus={handleInputOnFocus}
+            autoComplete='new-password'
           />
         </div>
         <div className='errorMessage'>
@@ -159,9 +162,8 @@ function Signup() {
             placeholder='Confirm password'
             id='confirmPassword'
             required
-            onChange={(e) => handleConfirmPasswordOnChange(e, password)}
+            onChange={(e) => handleConfirmPasswordOnChange(e)}
             onBlur={handleConfirmPasswordOnBlur}
-            // onFocus={handleInputOnFocus}
           />
         </div>
         <div className='errorMessage'>

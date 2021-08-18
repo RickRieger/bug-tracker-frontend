@@ -4,7 +4,6 @@ import { isEmail } from 'validator';
 function useEmailInputMonitor(inputType) {
   const [value, setValue] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  const [responseValue, setResponseValue] = useState(null);
   const [onFocusOccurred, setOnFocusOccurred] = useState(false);
 
   function onChange(e) {
@@ -12,10 +11,6 @@ function useEmailInputMonitor(inputType) {
     setValue(value);
     checkInput(value);
     setOnFocusOccurred(true);
-  }
-
-  function clearInput() {
-    setValue('');
   }
 
   function checkInput(value) {

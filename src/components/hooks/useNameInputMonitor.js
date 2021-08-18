@@ -13,10 +13,6 @@ function useNameInputMonitor(inputType) {
     setOnFocusOccurred(true);
   }
 
-  function clearInput() {
-    setValue('');
-  }
-
   function checkInput(value) {
     if (value.length === 0) {
       setErrorMessage(`${inputType} is required`);

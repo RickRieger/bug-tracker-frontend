@@ -1,19 +1,20 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { isEmpty } from 'validator';
+import React, { useEffect, useContext } from 'react';
+// import { isEmpty } from 'validator';
 import jwtDecode from 'jwt-decode';
 import { toast } from 'react-toastify';
 import Axios from '../utils/Axios';
 import checkIfUserIsAuth from '../utils/checkIsUserIsAuth';
 import setAxiosAuthToken from '../utils/setAxiosAuthToken';
+import useEmailInputMonitor from '../hooks/useEmailInputMonitor';
+import usePasswordInputMonitor from '../hooks/usePasswordInputMonitor';
 import './Login.css';
 import { LoginContext } from '../../context/context';
 
 function Login() {
   const { handleUserLogin } = useContext(LoginContext);
-
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
+  const [email, handleEmailOnChange] = useEmailInputMonitor('Email');
+  const [password, handlePasswordOnChange] =
+    usePasswordInputMonitor('Password');
 
   useEffect(() => {
     let isAuth = checkIfUserIsAuth();
@@ -23,20 +24,12 @@ function Login() {
   }, []);
 
   useEffect(() => {
-    if (!isEmpty(email) && !isEmpty(password)) {
-      setSubmitButtonDisabled(false);
-    } else {
-      setSubmitButtonDisabled(true);
-    }
+    // if (!isEmpty(email) && !isEmpty(password)) {
+    //   setSubmitButtonDisabled(false);
+    // } else {
+    //   setSubmitButtonDisabled(true);
+    // }
   }, [email, password]);
-
-  const handleOnChange = (event) => {
-    if (event.target.name === 'email') {
-      setEmail(event.target.value);
-    } else {
-      setPassword(event.target.value);
-    }
-  };
 
   const handleOnSubmit = async (event) => {
     event.preventDefault();
@@ -88,7 +81,7 @@ function Login() {
               id='email'
               required
               value={email}
-              onChange={handleOnChange}
+              onChange={handlePasswordOnChange}
               autoFocus
             />
           </div>
@@ -102,7 +95,7 @@ function Login() {
               id='password'
               required
               value={password}
-              onChange={handleOnChange}
+              onChange={handleEmailOnChange}
             />
           </div>
           <div className='m-t-lg'>
@@ -112,7 +105,7 @@ function Login() {
                   className='btn btn--form'
                   type='submit'
                   value='Login'
-                  disabled={submitButtonDisabled}
+                  // disabled={submitButtonDisabled}
                 />
               </li>
             </ul>

@@ -3,9 +3,7 @@ import { isStrongPassword } from 'validator';
 
 function usePasswordInputMonitor(inputType) {
   const [value, setValue] = useState('');
-  const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const [isDisabled, setIsDisabled] = useState(true);
   const [onFocusOccurred, setOnFocusOccurred] = useState(false);
 
   function onChange(e) {
@@ -15,19 +13,11 @@ function usePasswordInputMonitor(inputType) {
     setOnFocusOccurred(true);
   }
 
-  function clearInput() {
-    setValue('');
-  }
-
   function checkInput(value) {
     if (value.length === 0) {
-      setIsError(true);
       setErrorMessage(`${inputType} is required`);
-      setIsDisabled(true);
     } else {
-      setIsError(false);
       setErrorMessage(``);
-      setIsDisabled(false);
     }
     if (!isStrongPassword(value)) {
       setErrorMessage(
@@ -41,15 +31,7 @@ function usePasswordInputMonitor(inputType) {
     }
   }
 
-  return [
-    value,
-    onChange,
-    isError,
-    errorMessage,
-    handleOnBlur,
-    onFocusOccurred,
-    clearInput,
-  ];
+  return [value, onChange, errorMessage, handleOnBlur, onFocusOccurred];
 }
 
 export default usePasswordInputMonitor;

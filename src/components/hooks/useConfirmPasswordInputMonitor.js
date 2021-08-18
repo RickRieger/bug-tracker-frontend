@@ -1,20 +1,13 @@
 import { useState } from 'react';
-import { isStrongPassword } from 'validator';
 
 function useConfirmPasswordInputMonitor(inputType) {
   const [value, setValue] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  const [onFocusOccurred, setOnFocusOccurred] = useState(false);
   function onChange(e, passwordToCompare) {
     let value = e.target.value;
     setValue(value);
     checkInput(value);
     comparePasswords(value, passwordToCompare);
-    setOnFocusOccurred(true);
-  }
-
-  function clearInput() {
-    setValue('');
   }
 
   function checkInput(value) {
@@ -29,13 +22,15 @@ function useConfirmPasswordInputMonitor(inputType) {
       setErrorMessage(`${inputType} is required`);
     }
   }
-  function comparePasswords(passwordOne, passwordTwo) {
-    if (passwordOne !== passwordTwo) {
+  function comparePasswords(password) {
+    if (password.length > 0 && value.length > 0 && password !== value) {
       setErrorMessage('passwords do not match');
+    } else {
+      setErrorMessage('');
     }
   }
 
-  return [value, onChange, errorMessage, handleOnBlur, onFocusOccurred];
+  return [value, onChange, errorMessage, handleOnBlur, comparePasswords];
 }
 
 export default useConfirmPasswordInputMonitor;

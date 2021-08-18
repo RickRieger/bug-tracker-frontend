@@ -6,7 +6,7 @@ import Signup from './components/Signup/Signup';
 import Login from './components/Login/Login';
 import Home from './components/Home/Home';
 import Nav from './components/Nav/Nav';
-import PrivateRoute from './components/PrivateRoute/PrivateRoute';
+// import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 function MainRouter() {
   const { user, handleUserLogin, handleUserLogout } =
     useContext(MainRouterContext);
