@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import useNameInputMonitor from '../hooks/useNameInputMonitor';
-import useEmailInputMonitor from '../hooks/useEmailInputMonitor';
-import usePasswordInputMonitor from '../hooks/usePasswordInputMonitor';
-import useConfirmPasswordInputMonitor from '../hooks/useConfirmPasswordInputMonitor';
-// import Axios from '../utils/Axios';
-// import { toast } from 'react-toastify';
+import useNameHooks from '../hooks/useNameHooks';
+import useEmailHooks from '../hooks/useEmailHooks';
+import usePasswordHooks from '../hooks/usePasswordHooks';
+import useConfirmPasswordHooks from '../hooks/useConfirmPasswordHooks';
+import Axios from '../utils/Axios';
+import { toast } from 'react-toastify';
 import './Signup.css';
+import { useHistory } from 'react-router-dom';
 
 function Signup() {
   const [
@@ -13,30 +14,32 @@ function Signup() {
     handleFirstNameOnChange,
     firstNameErrorMessage,
     handleFirstNameOnBlur,
-  ] = useNameInputMonitor('First name');
+  ] = useNameHooks('First name');
   const [
     lastName,
     handleLastNameOnChange,
     lastNameErrorMessage,
     handleLastNameOnBlur,
-  ] = useNameInputMonitor('Last name');
+  ] = useNameHooks('Last name');
   const [email, handleEmailOnChange, emailErrorMessage, handleEmailOnBlur] =
-    useEmailInputMonitor('Email');
+    useEmailHooks('Email');
   const [
     password,
     handlePasswordOnChange,
     passwordErrorMessage,
     handlePasswordOnBlur,
-  ] = usePasswordInputMonitor('Password');
+  ] = usePasswordHooks('Password');
   const [
     confirmPassword,
     handleConfirmPasswordOnChange,
     confirmPasswordErrorMessage,
     handleConfirmPasswordOnBlur,
     comparePasswords,
-  ] = useConfirmPasswordInputMonitor('Confirm password');
+  ] = useConfirmPasswordHooks('Confirm password');
 
   const [isSubmitButtonDisabled, setIsSubmitButtonDisabled] = useState(true);
+
+  const history = useHistory();
 
   useEffect(() => {
     comparePasswords(password);
@@ -74,15 +77,48 @@ function Signup() {
     comparePasswords,
   ]);
 
-  const handleOnSubmit = (event) => {
-    event.preventDefault();
-    console.log('hello dog');
+  const handleOnSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      let userInputObj = {
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        password: password,
+      };
+      await Axios.post('/api/user/sign-up', userInputObj);
+      // toast.success(`User created - Please login`, {
+      //   position: 'top-center',
+      //   autoClose: 5000,
+      //   hideProgressBar: false,
+      //   closeOnClick: true,
+      //   pauseOnHover: true,
+      //   draggable: true,
+      //   progress: undefined,
+      // });
+      history.push('/dashboard');
+    } catch (e) {
+      console.log(e);
+      toast.error(`${e.response.data.message}`, {
+        position: 'top-center',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
   };
 
   return (
     <div className='signup__body'>
       <div className='background-image'></div>
-      <form className='signup__form' onSubmit={handleOnSubmit}>
+      <form
+        className='signup__form'
+        onSubmit={handleOnSubmit}
+        autoComplete='on'
+      >
         <h1>Create an account</h1>
         <br />
         <br />
@@ -98,6 +134,7 @@ function Signup() {
             required
             onChange={handleFirstNameOnChange}
             onBlur={handleFirstNameOnBlur}
+            autoComplete='given-name'
             autoFocus
           />
         </div>
@@ -115,6 +152,7 @@ function Signup() {
             required
             onChange={handleLastNameOnChange}
             onBlur={handleLastNameOnBlur}
+            autoComplete='family-name'
           />
         </div>
         <div className='errorMessage'>
@@ -131,6 +169,7 @@ function Signup() {
             required
             onChange={handleEmailOnChange}
             onBlur={handleEmailOnBlur}
+            autoComplete='email'
           />
         </div>
         <div className='errorMessage'>
@@ -164,6 +203,7 @@ function Signup() {
             required
             onChange={(e) => handleConfirmPasswordOnChange(e)}
             onBlur={handleConfirmPasswordOnBlur}
+            autoComplete='new-password'
           />
         </div>
         <div className='errorMessage'>

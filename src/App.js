@@ -4,6 +4,7 @@ import jwtDecode from 'jwt-decode';
 import MainRouter from './MainRouter';
 import setAxiosAuthToken from './components/utils/setAxiosAuthToken';
 import { MainRouterContext } from './context/context';
+import AuthContextWrapper from './context/AuthContext';
 import './App.css';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -45,9 +46,11 @@ function App() {
   return (
     <div>
       <ToastContainer position='top-center' />
-      <MainRouterContext.Provider value={itemsToMainRouterContext}>
-        <MainRouter />
-      </MainRouterContext.Provider>
+      <AuthContextWrapper>
+        <MainRouterContext.Provider value={itemsToMainRouterContext}>
+          <MainRouter />
+        </MainRouterContext.Provider>
+      </AuthContextWrapper>
     </div>
   );
 }

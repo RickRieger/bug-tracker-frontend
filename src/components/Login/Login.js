@@ -1,21 +1,22 @@
-import React, { useEffect, useContext } from 'react';
-// import { isEmpty } from 'validator';
+import React, { useEffect, useContext, useState } from 'react';
+import { isEmpty } from 'validator';
 import jwtDecode from 'jwt-decode';
 import { toast } from 'react-toastify';
 import Axios from '../utils/Axios';
 import checkIfUserIsAuth from '../utils/checkIsUserIsAuth';
 import setAxiosAuthToken from '../utils/setAxiosAuthToken';
-import useEmailInputMonitor from '../hooks/useEmailInputMonitor';
-import usePasswordInputMonitor from '../hooks/usePasswordInputMonitor';
+import useEmailHooks from '../hooks/useEmailHooks';
+import usePasswordHooks from '../hooks/usePasswordHooks';
 import './Login.css';
 import { LoginContext } from '../../context/context';
-
+import { useHistory } from 'react-router-dom';
 function Login() {
   const { handleUserLogin } = useContext(LoginContext);
-  const [email, handleEmailOnChange] = useEmailInputMonitor('Email');
-  const [password, handlePasswordOnChange] =
-    usePasswordInputMonitor('Password');
 
+  const [email, handleEmailOnChange] = useEmailHooks('Email');
+  const [password, handlePasswordOnChange] = usePasswordHooks('Password');
+  const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
+  const history = useHistory();
   useEffect(() => {
     let isAuth = checkIfUserIsAuth();
     if (isAuth) {
@@ -24,11 +25,11 @@ function Login() {
   }, []);
 
   useEffect(() => {
-    // if (!isEmpty(email) && !isEmpty(password)) {
-    //   setSubmitButtonDisabled(false);
-    // } else {
-    //   setSubmitButtonDisabled(true);
-    // }
+    if (!isEmpty(email) && !isEmpty(password)) {
+      setSubmitButtonDisabled(false);
+    } else {
+      setSubmitButtonDisabled(true);
+    }
   }, [email, password]);
 
   const handleOnSubmit = async (event) => {
@@ -51,7 +52,7 @@ function Login() {
       handleUserLogin(decodedToken);
       window.localStorage.setItem('jwtToken', jwtToken);
       toast.success('Login success!');
-      // this.props.history.push('/dashboard');
+      history.push('/dashboard');
     } catch (e) {
       console.log(e);
       if (e.response.status === 429) {
@@ -81,7 +82,7 @@ function Login() {
               id='email'
               required
               value={email}
-              onChange={handlePasswordOnChange}
+              onChange={handleEmailOnChange}
               autoFocus
             />
           </div>
@@ -95,7 +96,7 @@ function Login() {
               id='password'
               required
               value={password}
-              onChange={handleEmailOnChange}
+              onChange={handlePasswordOnChange}
             />
           </div>
           <div className='m-t-lg'>
@@ -105,7 +106,7 @@ function Login() {
                   className='btn btn--form'
                   type='submit'
                   value='Login'
-                  // disabled={submitButtonDisabled}
+                  disabled={submitButtonDisabled}
                 />
               </li>
             </ul>

@@ -1,13 +1,17 @@
 import { useState } from 'react';
+import { isEmail } from 'validator';
 
-function useConfirmPasswordInputMonitor(inputType) {
+function useEmailHooks(inputType) {
   const [value, setValue] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  function onChange(e, passwordToCompare) {
+  const [onFocusOccurred, setOnFocusOccurred] = useState(false);
+
+  function onChange(e) {
     let value = e.target.value;
+    console.log(value);
     setValue(value);
     checkInput(value);
-    comparePasswords(value, passwordToCompare);
+    setOnFocusOccurred(true);
   }
 
   function checkInput(value) {
@@ -16,21 +20,18 @@ function useConfirmPasswordInputMonitor(inputType) {
     } else {
       setErrorMessage(``);
     }
+
+    if (!isEmail(value)) {
+      setErrorMessage('Please enter a valid email');
+    }
   }
   function handleOnBlur(e) {
     if (value.length === 0) {
       setErrorMessage(`${inputType} is required`);
     }
   }
-  function comparePasswords(password) {
-    if (password.length > 0 && value.length > 0 && password !== value) {
-      setErrorMessage('passwords do not match');
-    } else {
-      setErrorMessage('');
-    }
-  }
 
-  return [value, onChange, errorMessage, handleOnBlur, comparePasswords];
+  return [value, onChange, errorMessage, handleOnBlur, onFocusOccurred];
 }
 
-export default useConfirmPasswordInputMonitor;
+export default useEmailHooks;

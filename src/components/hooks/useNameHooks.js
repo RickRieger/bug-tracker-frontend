@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { isAlpha, isEmail } from 'validator';
+import { isAlpha } from 'validator';
 
-function useNameInputMonitor(inputType) {
+function useNameHooks(inputType) {
   const [value, setValue] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [onFocusOccurred, setOnFocusOccurred] = useState(false);
@@ -20,17 +20,10 @@ function useNameInputMonitor(inputType) {
       setErrorMessage(``);
     }
 
-    if (inputType !== 'Email' || 'Password' || 'Confirm password') {
-      if (!isAlpha(value)) {
-        setErrorMessage(
-          `${inputType} may not contain numbers or special characters`
-        );
-      }
-    }
-    if (inputType === 'Email') {
-      if (!isEmail(value)) {
-        setErrorMessage('Please enter a valid email');
-      }
+    if (value.length > 0 && !isAlpha(value)) {
+      setErrorMessage(
+        `${inputType} may not contain numbers or special characters`
+      );
     }
   }
   function handleOnBlur(e) {
@@ -42,4 +35,4 @@ function useNameInputMonitor(inputType) {
   return [value, onChange, errorMessage, handleOnBlur, onFocusOccurred];
 }
 
-export default useNameInputMonitor;
+export default useNameHooks;

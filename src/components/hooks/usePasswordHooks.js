@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { isStrongPassword } from 'validator';
 
-function usePasswordInputMonitor(inputType) {
+function usePasswordHooks(inputType) {
   const [value, setValue] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [onFocusOccurred, setOnFocusOccurred] = useState(false);
@@ -34,4 +34,4 @@ function usePasswordInputMonitor(inputType) {
   return [value, onChange, errorMessage, handleOnBlur, onFocusOccurred];
 }
 
-export default usePasswordInputMonitor;
+export default usePasswordHooks;
