@@ -8,11 +8,12 @@ import setAxiosAuthToken from '../utils/setAxiosAuthToken';
 import useEmailHooks from '../hooks/useEmailHooks';
 import usePasswordHooks from '../hooks/usePasswordHooks';
 import './Login.css';
-import { LoginContext } from '../../context/context';
+import { MainRouterContext } from '../../context/context';
 import { useHistory } from 'react-router-dom';
-function Login() {
-  const { handleUserLogin } = useContext(LoginContext);
 
+function Login() {
+  const { user, handleUserLogin, handleUserLogout } =
+    useContext(MainRouterContext);
   const [email, handleEmailOnChange] = useEmailHooks('Email');
   const [password, handlePasswordOnChange] = usePasswordHooks('Password');
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
@@ -47,10 +48,12 @@ function Login() {
       setAxiosAuthToken(jwtToken);
 
       let decodedToken = jwtDecode(jwtToken);
-      console.log(decodedToken);
+      // console.log(decodedToken);
 
       handleUserLogin(decodedToken);
+
       window.localStorage.setItem('jwtToken', jwtToken);
+      // console.log(result);
       toast.success('Login success!');
       history.push('/dashboard');
     } catch (e) {
@@ -67,7 +70,11 @@ function Login() {
     <div>
       <div className='login_body'>
         <div className='background-image'></div>
-        <form className='login__form' onSubmit={handleOnSubmit}>
+        <form
+          className='login__form'
+          onSubmit={handleOnSubmit}
+          autoComplete='on'
+        >
           <h1>Log in</h1>
           <br />
           <br />
@@ -83,6 +90,7 @@ function Login() {
               required
               value={email}
               onChange={handleEmailOnChange}
+              autoComplete='email'
               autoFocus
             />
           </div>
@@ -96,6 +104,7 @@ function Login() {
               id='password'
               required
               value={password}
+              autoComplete='current-password'
               onChange={handlePasswordOnChange}
             />
           </div>

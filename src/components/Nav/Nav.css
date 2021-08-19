@@ -15,8 +15,9 @@ nav {
   align-items: center;
   width: 100vw;
   min-height: 9vh;
-  background-color: rgb(106, 105, 105);
+  background-color: rgb(140, 139, 139);
   box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.542);
+  /* border-bottom: solid 01px rgb(97, 97, 97) !important; */
 }
 #logo {
   width: 75px;

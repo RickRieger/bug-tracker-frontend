@@ -1,31 +1,21 @@
 import React, { useContext } from 'react';
-import { BrowserRouter as Router, Route, useHistory } from 'react-router-dom';
-import { MainRouterContext } from './context/context';
-import { LoginContext } from './context/context';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import PrivateRoute from './components/PrivateRoute/PrivateRoute';
+import Nav from './components/Nav/Nav';
+import Home from './components/Home/Home';
 import Signup from './components/Signup/Signup';
 import Login from './components/Login/Login';
-import Home from './components/Home/Home';
-import Nav from './components/Nav/Nav';
-import Dashboard from './components/Dashboard/Dashboard';
-import PrivateRoute from './components/PrivateRoute/PrivateRoute';
-function MainRouter() {
-  const { user, handleUserLogin, handleUserLogout } =
-    useContext(MainRouterContext);
 
-  const ItemsToLoginContext = {
-    user,
-    handleUserLogin,
-    handleUserLogout,
-  };
+import Dashboard from './components/Dashboard/Dashboard';
+
+function MainRouter() {
   return (
     <Router>
       <Nav />
       <>
         <Route exact path='/' component={Home} />
         <Route exact path='/sign-up' component={Signup} />
-        <LoginContext.Provider value={ItemsToLoginContext}>
-          <Route exact path='/login' component={Login} />
-        </LoginContext.Provider>
+        <Route exact path='/login' component={Login} />
         <PrivateRoute exact path='/dashboard' component={Dashboard} />
       </>
     </Router>

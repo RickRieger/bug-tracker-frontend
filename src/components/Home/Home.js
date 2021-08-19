@@ -1,6 +1,17 @@
-import React from 'react';
+import { React, useEffect, useContext } from 'react';
+import { MainRouterContext } from '../../context/context';
+import { useHistory } from 'react-router';
 import './Home.css';
 function Home() {
+  const history = useHistory();
+  const { setIsHomePage } = useContext(MainRouterContext);
+  useEffect(() => {
+    setIsHomePage(true);
+
+    return () => {
+      setIsHomePage(false);
+    };
+  }, []);
   return (
     <div id='homeContainer'>
       <div id='centerContainer'>
@@ -15,7 +26,12 @@ function Home() {
         <div>
           <h5>Keep clients happy</h5>
         </div>
-        <button className='btn button-center-container'>
+        <button
+          className='btn button-center-container'
+          onClick={() => {
+            history.push('/sign-up');
+          }}
+        >
           Try it for free!
         </button>
       </div>
