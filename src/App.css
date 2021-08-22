@@ -12,6 +12,12 @@ body {
   height: 40vmin;
   pointer-events: none;
 }
+.app-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {

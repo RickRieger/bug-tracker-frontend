@@ -11,7 +11,7 @@ function Home() {
     return () => {
       setIsHomePage(false);
     };
-  }, []);
+  }, [setIsHomePage]);
   return (
     <div id='homeContainer'>
       <div id='centerContainer'>

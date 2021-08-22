@@ -12,8 +12,7 @@ import { MainRouterContext } from '../../context/context';
 import { useHistory } from 'react-router-dom';
 
 function Login() {
-  const { user, handleUserLogin, handleUserLogout } =
-    useContext(MainRouterContext);
+  const { handleUserLogin } = useContext(MainRouterContext);
   const [email, handleEmailOnChange] = useEmailHooks('Email');
   const [password, handlePasswordOnChange] = usePasswordHooks('Password');
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);

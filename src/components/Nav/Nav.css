@@ -7,18 +7,38 @@ header {
   display: flex;
 }
 nav {
-  display: flex !important;
   position: fixed;
+  left: 0;
+  right: 0;
   top: 0;
-  overflow: hidden;
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  z-index: 999;
+  padding-right: 15px;
+  padding: 1.2rem 0;
+  -webkit-transition: padding-left 0.2s ease;
+  -o-transition: padding-left 0.2s ease;
+  transition: padding-left 0.2s ease;
+  /* border-bottom: 1px solid #ebedfa;
+  background: #fff;
+  box-shadow: 0 6px 18px rgb(196 205 224 / 10%); */
+
+  /* display: flex;
+  top: 0;
+  overflow: hidden; */
   justify-content: space-between;
   align-items: center;
-  width: 100vw;
+  /* width: 100%; */
   min-height: 9vh;
   background-color: rgb(140, 139, 139);
   box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.542);
-  /* border-bottom: solid 01px rgb(97, 97, 97) !important; */
 }
+#search-tickets {
+  margin-right: 500px;
+}
+
 #logo {
   width: 75px;
   display: inline;

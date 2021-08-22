@@ -1,103 +1,119 @@
-import React, { useEffect } from 'react';
 import { Chart } from 'react-google-charts';
 import './Dashboard.css';
 function Dashboard() {
   return (
     <div id='dashboard'>
-      <div id='dashboard-sidebar-nav'></div>
       <div className='charts'>
         <Chart
-          width={'500px'}
-          height={'300px'}
+          width={'400px'}
+          height={'200px'}
           backgroundColor='transparent'
           chartType='PieChart'
           loader={<div>Loading Chart</div>}
           data={[
-            ['Task', 'Hours per Day'],
-            ['Work', 11],
-            ['Eat', 2],
-            ['Commute', 2],
-            ['Watch TV', 2],
-            ['Sleep', 7],
+            ['Tickets', 'by project'],
+            ['Weather app', 5],
+            ['To-do-list', 2],
+            ['Movie with friends', 3],
+            ['Jeopardy-jquery', 7],
           ]}
           options={{
-            title: 'My Daily Activities',
-            // Just add this option
+            title: 'Company Ticket Distribution',
             is3D: true,
             backgroundColor: {
               fill: 'transparent',
+            },
+            pieSliceTextStyle: {
+              color: 'black',
+            },
+            slices: {
+              0: { color: 'green' },
+              1: { color: 'purple' },
+              2: { color: 'orange' },
+              3: { color: 'blue' },
             },
           }}
           rootProps={{ 'data-testid': '2' }}
         />
         <Chart
-          width={'500px'}
-          height={'300px'}
+          width={'400px'}
+          height={'200px'}
           backgroundColor='transparent'
           chartType='PieChart'
           loader={<div>Loading Chart</div>}
           data={[
-            ['Task', 'Hours per Day'],
-            ['Work', 11],
-            ['Eat', 2],
-            ['Commute', 2],
-            ['Watch TV', 2],
-            ['Sleep', 7],
+            ['Tickets', 'By type'],
+            ['New', 11],
+            ['Unassigned', 2],
+            ['Development', 2],
+            ['Archived', 2],
           ]}
           options={{
-            title: 'My Daily Activities',
+            title: 'Tickets By Status',
             // Just add this option
             is3D: true,
             backgroundColor: {
               fill: 'transparent',
             },
-          }}
-          rootProps={{ 'data-testid': '2' }}
-        />
-        <Chart
-          width={'500px'}
-          height={'300px'}
-          backgroundColor='transparent'
-          chartType='PieChart'
-          loader={<div>Loading Chart</div>}
-          data={[
-            ['Task', 'Hours per Day'],
-            ['Work', 11],
-            ['Eat', 2],
-            ['Commute', 2],
-            ['Watch TV', 2],
-            ['Sleep', 7],
-          ]}
-          options={{
-            title: 'My Daily Activities',
-            // Just add this option
-            is3D: true,
-            backgroundColor: {
-              fill: 'transparent',
+            pieSliceTextStyle: {
+              color: 'black',
             },
           }}
           rootProps={{ 'data-testid': '2' }}
         />
         <Chart
-          width={'500px'}
-          height={'300px'}
+          width={'400px'}
+          height={'200px'}
+          backgroundColor='transparent'
+          chartType='PieChart'
+          loader={<div>Loading Chart</div>}
+          data={[
+            ['Tickets', 'By priority'],
+            ['Bug', 11],
+            ['Task', 6],
+            ['New feature', 4],
+          ]}
+          options={{
+            title: 'Tickets By Type',
+            // Just add this option
+            is3D: true,
+            backgroundColor: {
+              fill: 'transparent',
+            },
+            pieSliceTextStyle: {
+              color: 'black',
+            },
+          }}
+          rootProps={{ 'data-testid': '2' }}
+        />
+        <Chart
+          width={'400px'}
+          height={'200px'}
           backgroundColor='transparent'
           chartType='PieChart'
           loader={<div>Loading Chart</div>}
           data={[
             ['Task', 'Hours per Day'],
-            ['Work', 11],
-            ['Eat', 2],
-            ['Commute', 2],
-            ['Watch TV', 2],
-            ['Sleep', 7],
+            ['low', 3],
+            ['medium', 6],
+            ['high', 2],
+            ['urgent', 2],
           ]}
           options={{
-            title: 'My Daily Activities',
+            title: 'Tickets By Priority',
             // Just add this option
             is3D: true,
             backgroundColor: {
               fill: 'transparent',
+            },
+            slices: {
+              0: { color: 'green' },
+              1: { color: 'yellow' },
+              2: { color: 'orange' },
+              3: { color: 'red' },
+            },
+            pieSliceTextStyle: {
+              color: 'black',
             },
           }}
           rootProps={{ 'data-testid': '2' }}

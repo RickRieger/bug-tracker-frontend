@@ -10,7 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 function App() {
   const [user, setUser] = useState(null);
   const [isHomePage, setIsHomePage] = useState(false);
-  console.log('getting shit from local storage');
+
   useEffect(() => {
     let getJwtToken = window.localStorage.getItem('jwtToken');
     if (getJwtToken) {
@@ -47,12 +47,12 @@ function App() {
     isHomePage,
   };
   return (
-    <div>
+    <>
       <ToastContainer position='top-center' />
       <MainRouterContext.Provider value={itemsToMainRouterContext}>
         <MainRouter />
       </MainRouterContext.Provider>
-    </div>
+    </>
   );
 }
 
