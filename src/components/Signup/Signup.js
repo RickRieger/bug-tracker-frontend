@@ -1,14 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { MainRouterContext } from '../../context/context';
 import useNameHooks from '../hooks/useNameHooks';
 import useEmailHooks from '../hooks/useEmailHooks';
 import usePasswordHooks from '../hooks/usePasswordHooks';
 import useConfirmPasswordHooks from '../hooks/useConfirmPasswordHooks';
 import Axios from '../utils/Axios';
+import jwtDecode from 'jwt-decode';
+import setAxiosAuthToken from '../utils/setAxiosAuthToken';
 import { toast } from 'react-toastify';
 import './Signup.css';
 import { useHistory } from 'react-router-dom';
 
 function Signup() {
+  const { setUser, handleUserLogin, handleUserLogout } =
+    useContext(MainRouterContext);
   const [
     firstName,
     handleFirstNameOnChange,
@@ -86,16 +91,35 @@ function Signup() {
         email: email,
         password: password,
       };
-      await Axios.post('/api/user/sign-up', userInputObj);
-      // toast.success(`User created - Please login`, {
-      //   position: 'top-center',
-      //   autoClose: 5000,
-      //   hideProgressBar: false,
-      //   closeOnClick: true,
-      //   pauseOnHover: true,
-      //   draggable: true,
-      //   progress: undefined,
-      // });
+      let result = await Axios.post('/api/user/sign-up', userInputObj);
+      let jwtToken = result.data.payload;
+
+      console.log(jwtToken);
+      //setting jwt token to out Axios instance
+      setAxiosAuthToken(jwtToken);
+
+      let decodedToken = jwtDecode(jwtToken);
+      // console.log(decodedToken);
+
+      handleUserLogin(decodedToken);
+
+      window.localStorage.setItem('jwtToken', jwtToken);
+      // console.log(result);
+      toast.success('Login success!');
+      history.push('/dashboard');
+      let getJwtToken = window.localStorage.getItem('jwtToken');
+      if (getJwtToken) {
+        const currentTime = Date.now() / 1000;
+        let decodedJWTToken = jwtDecode(getJwtToken);
+        if (decodedJWTToken.exp < currentTime) {
+          //logout
+          handleUserLogout();
+        } else {
+          //login
+          handleUserLogin(decodedJWTToken);
+        }
+      }
+
       history.push('/dashboard');
     } catch (e) {
       console.log(e);

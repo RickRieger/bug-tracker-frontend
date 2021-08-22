@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { MainRouterContext } from '../../context/context';
 import './SideNav.css';
 
 function SideNav() {
-  const { isHomePage, user, handleUserLogout } = useContext(MainRouterContext);
+  const { user } = useContext(MainRouterContext);
   return (
     <>
       {user ? (
