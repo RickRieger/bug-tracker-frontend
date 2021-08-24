@@ -12,8 +12,25 @@ import './Signup.css';
 import { useHistory } from 'react-router-dom';
 
 function Signup() {
-  const { setUser, handleUserLogin, handleUserLogout } =
-    useContext(MainRouterContext);
+  let getJwtToken = window.localStorage.getItem('jwtToken');
+  const history = useHistory();
+  if (getJwtToken) {
+    history.push('/dashboard');
+  }
+
+  // if (getJwtToken) {
+  //   const currentTime = Date.now() / 1000;
+  //   let decodedJWTToken = jwtDecode(getJwtToken);
+  //   if (decodedJWTToken.exp < currentTime) {
+  //     //logout
+  //     handleUserLogout();
+  //   } else {
+  //     //login
+  //     handleUserLogin(decodedJWTToken);
+  //   }
+  // }
+
+  const { handleUserLogin, handleUserLogout } = useContext(MainRouterContext);
   const [
     firstName,
     handleFirstNameOnChange,
@@ -43,8 +60,6 @@ function Signup() {
   ] = useConfirmPasswordHooks('Confirm password');
 
   const [isSubmitButtonDisabled, setIsSubmitButtonDisabled] = useState(true);
-
-  const history = useHistory();
 
   useEffect(() => {
     comparePasswords(password);
@@ -105,21 +120,7 @@ function Signup() {
 
       window.localStorage.setItem('jwtToken', jwtToken);
       // console.log(result);
-      toast.success('Login success!');
-      history.push('/dashboard');
-      let getJwtToken = window.localStorage.getItem('jwtToken');
-      if (getJwtToken) {
-        const currentTime = Date.now() / 1000;
-        let decodedJWTToken = jwtDecode(getJwtToken);
-        if (decodedJWTToken.exp < currentTime) {
-          //logout
-          handleUserLogout();
-        } else {
-          //login
-          handleUserLogin(decodedJWTToken);
-        }
-      }
-
+      toast.success(`I'll do better next time`);
       history.push('/dashboard');
     } catch (e) {
       console.log(e);

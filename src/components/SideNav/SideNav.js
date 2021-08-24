@@ -9,9 +9,16 @@ function SideNav() {
     <>
       {user ? (
         <aside id='dashboard-sidebar-nav'>
-          <Link id='aside-logo' to='/dashboard'>
-            <img id='logo' src='mantis-logo.png' alt='logo' />
-          </Link>
+          {user ? (
+            <div id='greeting'>
+              <h3 style={{ textAlign: 'center' }}>Welcome</h3>
+              <h3 style={{ textAlign: 'center' }}>
+                {user.firstName} {user.lastName}
+              </h3>
+            </div>
+          ) : (
+            ''
+          )}
           <div id='aside-link-container'>
             <div>link</div>
             <div>link</div>

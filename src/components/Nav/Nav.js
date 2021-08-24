@@ -30,13 +30,6 @@ function Nav() {
       ) : (
         ''
       )}
-      {user ? (
-        <div id='greeting'>
-          Welcome {user.firstName} {user.lastName}
-        </div>
-      ) : (
-        ''
-      )}
       <ul className='nav-links'>
         <li>
           {user || isHomePage ? (

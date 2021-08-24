@@ -8,7 +8,6 @@ function useEmailHooks(inputType) {
 
   function onChange(e) {
     let value = e.target.value;
-    console.log(value);
     setValue(value);
     checkInput(value);
     setOnFocusOccurred(true);

@@ -1,6 +1,28 @@
+import React, { useEffect, useState } from 'react';
+import Axios from '../utils/Axios';
+import { Link, NavLink } from 'react-router-dom';
 import { Chart } from 'react-google-charts';
+import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
+import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
 import './Dashboard.css';
+import moment from 'moment';
 function Dashboard() {
+  const [projects, setProjects] = useState({});
+  useEffect(() => {
+    getAllProjects();
+  }, []);
+
+  async function getAllProjects() {
+    try {
+      let result = await Axios.get('/api/project/get-all-projects');
+      setProjects(result.data);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  console.log(projects, '<===projjects');
+
   return (
     <div id='dashboard'>
       <div className='charts'>
@@ -118,6 +140,43 @@ function Dashboard() {
           }}
           rootProps={{ 'data-testid': '2' }}
         />
+      </div>
+      <Link to='/create-project'>
+        <button>create new project</button>
+      </Link>
+      <br></br>
+      <div className='projects'>
+        <Table style={{ backgroundColor: 'gray', width: '1000px' }}>
+          <Thead>
+            <Tr>
+              <Th>Project Title</Th>
+              <Th>Start Date</Th>
+              <Th>End Date</Th>
+              <Th>Number of developers assigned</Th>
+              <Th>Tickets assigned</Th>
+            </Tr>
+          </Thead>
+          <Tbody>
+            {projects.length > 0 ? (
+              projects.map((project, index) => {
+                return (
+                  <Tr key={index}>
+                    <Td>{project.name}</Td>
+                    <Td>{moment(project.startDate).format('ll')}</Td>
+                    <Td>{moment(project.endDate).format('ll')}</Td>
+                    <Td>{project.developer.length}</Td>
+                    <Td>{project.tickets.length}</Td>
+                    <Td>
+                      <Link>details</Link>
+                    </Td>
+                  </Tr>
+                );
+              })
+            ) : (
+              <p>data not present </p>
+            )}
+          </Tbody>
+        </Table>
       </div>
     </div>
   );

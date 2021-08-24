@@ -12,11 +12,16 @@ import { MainRouterContext } from '../../context/context';
 import { useHistory } from 'react-router-dom';
 
 function Login() {
+  let getJwtToken = window.localStorage.getItem('jwtToken');
+  const history = useHistory();
+  if (getJwtToken) {
+    history.push('/dashboard');
+  }
   const { handleUserLogin } = useContext(MainRouterContext);
   const [email, handleEmailOnChange] = useEmailHooks('Email');
   const [password, handlePasswordOnChange] = usePasswordHooks('Password');
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(true);
-  const history = useHistory();
+
   useEffect(() => {
     let isAuth = checkIfUserIsAuth();
     if (isAuth) {
@@ -53,7 +58,7 @@ function Login() {
 
       window.localStorage.setItem('jwtToken', jwtToken);
       // console.log(result);
-      toast.success('Login success!');
+      toast.success(`I'll do better next time`);
       history.push('/dashboard');
     } catch (e) {
       console.log(e);
